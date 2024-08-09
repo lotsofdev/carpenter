@@ -1,0 +1,29 @@
+@import './components/iframe/iframe.css';
+
+.s-carpenter {
+  position: relative;
+  z-index: 10;
+
+  .s-carpenter_component {
+    background: white;
+    position: fixed;
+    top: s-space(30);
+    right: s-space(30);
+    bottom: s-space(30);
+    width: clamp(600px, 25%, 900px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .s-carpenter_header {
+    display: flex;
+    flex-direction: column;
+  }
+  .s-carpenter_header-title {
+  }
+  .s-carpenter_header-description {
+  }
+
+  .s-carpenter_values {
+  }
+}

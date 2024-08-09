@@ -1,6 +1,10 @@
 import { JSONSchema7 } from 'json-schema';
 
-import __CarpenterFetchAdapter from '../js/adapters/CarpenterFetchAdapter.js';
+import {
+  IJsonSchemaFormUpdateObject,
+  IJsonSchemaFormWidget,
+} from '@lotsof/json-schema-form/src/shared/JsonSchemaForm.types.js';
+import __CarpenterFetchAdapter from '../components/fetchAdapter/fetchAdapter.js';
 
 export interface ICarpenterSettings {
   adapter: typeof __CarpenterFetchAdapter;
@@ -19,10 +23,8 @@ export interface ICarpenterComponent {
   $component: Element;
 }
 
-export interface ICarpenterUpdateObject {
+export interface ICarpenterUpdateObject extends IJsonSchemaFormUpdateObject {
   component: ICarpenterComponent;
-  path: string[];
-  value: any;
 }
 
 export interface ICarpenterUpdateResult {
@@ -40,7 +42,4 @@ export interface ICarpenterAdapter {
   applyUpdate(ICarpenterUpdateObject): void;
 }
 
-export interface ICarpenterWidget {
-  id: string;
-  tag: string;
-}
+export interface ICarpenterWidget extends IJsonSchemaFormWidget {}

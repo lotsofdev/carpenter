@@ -26,15 +26,12 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 };
 var _CarpenterElement_src_accessor_storage, _CarpenterElement_adapter_accessor_storage, _CarpenterElement_widgets_accessor_storage, _CarpenterElement__currentComponent_accessor_storage, _CarpenterElement__currentComponentId_accessor_storage;
 import __LitElement from '@lotsof/litElement';
-import { Draft2019 } from 'json-schema-library';
-import '../components/wysiwygWidget/wysiwygWidget.js';
+import '@lotsof/json-schema-form';
 // @todo    check why is a problem importing this functions
 // @ts-ignore
 import { __isInIframe } from '@lotsof/sugar/is';
 import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { literal, html as staticHtml, unsafeStatic } from 'lit/static-html.js';
-import { __deepMap, __get, __set } from '@lotsof/sugar/object';
 import '../../src/css/CarpenterElement.css';
 class CarpenterElement extends __LitElement {
     static registerWidget(widget) {
@@ -51,9 +48,7 @@ class CarpenterElement extends __LitElement {
     get _currentComponentId() { return __classPrivateFieldGet(this, _CarpenterElement__currentComponentId_accessor_storage, "f"); }
     set _currentComponentId(value) { __classPrivateFieldSet(this, _CarpenterElement__currentComponentId_accessor_storage, value, "f"); }
     constructor() {
-        super({
-            name: 's-carpenter',
-        });
+        super();
         _CarpenterElement_src_accessor_storage.set(this, '');
         _CarpenterElement_adapter_accessor_storage.set(this, null);
         _CarpenterElement_widgets_accessor_storage.set(this, {});
@@ -151,6 +146,7 @@ class CarpenterElement extends __LitElement {
         });
         $deamon.addEventListener('carpenter.edit', (e) => {
             this._currentComponent = e.detail;
+            this.requestUpdate();
         });
         (_d = (_c = this._$iframe) === null || _c === void 0 ? void 0 : _c.contentDocument) === null || _d === void 0 ? void 0 : _d.body.appendChild($deamon);
     }
@@ -170,136 +166,6 @@ class CarpenterElement extends __LitElement {
         }, schema);
         return foundSchema;
     }
-    _validateValues(schema, value) {
-        const jsonSchema = new Draft2019(schema), errors = jsonSchema.validate(value);
-        return errors;
-    }
-    _renderComponentValueErrors(errors) {
-        return html `
-      <ul class=${this.cls('_values-errors')}>
-        ${errors.map((error) => html `
-            <li class=${this.cls('_values-error')}>
-              ${error.message
-            .replace('in `#`', '')
-            .replace('at `#`', '')
-            .trim()}
-            </li>
-          `)}
-      </ul>
-    `;
-    }
-    _renderComponentValueEditWidget(value, path) {
-        // get the schema for current path
-        var _a, _b;
-        // remove the numerical indexes in the path.
-        // this is due to the fact that the schema is not
-        // aware of the array indexes
-        const pathWithoutIndexes = path.filter((p) => isNaN(parseInt(p)));
-        // get the schema for the current path
-        const schema = this._findInSchema((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.schema, pathWithoutIndexes);
-        // handle default value
-        if (value === null && schema.default !== undefined) {
-            __set((_b = this._currentComponent) === null || _b === void 0 ? void 0 : _b.values, path, schema.default);
-            value = schema.default;
-        }
-        // validate the value
-        let renderedErrors = '';
-        const errors = this._validateValues(schema, value);
-        if (errors.length) {
-            renderedErrors = this._renderComponentValueErrors(errors);
-        }
-        if (schema) {
-            switch (true) {
-                case schema.enum !== undefined:
-                    return html `<select
-              class=${`${this.cls('_values-select')} form-select`}
-              @change=${(e) => {
-                        var _a;
-                        __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, e.target.value);
-                        this._applyUpdate({
-                            component: this._currentComponent,
-                            value: e.target.value,
-                            path,
-                        });
-                    }}
-            >
-              ${schema.enum.map((v) => {
-                        return html `<option value=${v} ?selected=${v === value}>
-                  ${v}
-                </option>`;
-                    })}
-            </select>
-            ${renderedErrors} `;
-                    break;
-                case schema.type === 'string':
-                    return html `<input
-              type="text"
-              .value=${value !== null && value !== void 0 ? value : ''}
-              class=${this.cls('_values-input')}
-              @input=${(e) => {
-                        var _a;
-                        __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, e.target.value);
-                    }}
-              @change=${(e) => {
-                        this._applyUpdate({
-                            component: this._currentComponent,
-                            value: e.target.value,
-                            path,
-                        });
-                    }}
-            />
-            ${renderedErrors} `;
-                    break;
-                case schema.type === 'boolean':
-                    return html `<input
-            type="checkbox"
-            .checked=${value}
-            class=${`${this.cls('_values-checkbox')} form-checkbox`}
-            @change=${(e) => {
-                        var _a;
-                        __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, e.target.checked);
-                        this._applyUpdate({
-                            component: this._currentComponent,
-                            value: e.target.checked,
-                            path,
-                        });
-                    }}
-          />`;
-                    break;
-                case schema.type === 'number':
-                    return html `<input
-            type="number"
-            .value=${value}
-            min=${schema.minimum}
-            max=${schema.maximum}
-            class=${`${this.cls('_values-input')} form-input form-number`}
-            @input=${(e) => {
-                        var _a;
-                        __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, parseFloat(e.target.value));
-                    }}
-            @change=${(e) => {
-                        this._applyUpdate({
-                            component: this._currentComponent,
-                            value: e.target.value,
-                            path,
-                        });
-                    }}
-          />`;
-                    break;
-            }
-        }
-        return typeof value === 'number'
-            ? html `<span class="-number">${value}</span>`
-            : value === true
-                ? html `<span class="-true">true</span>`
-                : value === false
-                    ? html `<span class="-false">false</span>`
-                    : value === null
-                        ? html `<span class="-null">null</span>`
-                        : value === undefined
-                            ? html `<span class="-undefined">undefined</span>`
-                            : value;
-    }
     _applyUpdate(update) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
@@ -307,7 +173,6 @@ class CarpenterElement extends __LitElement {
                 this.log(`No adapter defined to handle update of ${update.path.join('.')}...`, update.value);
                 return;
             }
-            console.log(update);
             // make the update throug the specified adapter
             const response = yield this.adapter.applyUpdate(update);
             // if the component has been totally updated
@@ -318,130 +183,6 @@ class CarpenterElement extends __LitElement {
             // update the component
             this.requestUpdate();
         });
-    }
-    _createComponentDefaultValuesFromSchema(schema) {
-        const newValues = {};
-        __deepMap(schema, ({ object, prop, value, path }) => {
-            if (object.type !== 'object' && prop === 'type') {
-                const finalPath = path
-                    .split('.')
-                    .filter((p) => p !== 'properties' && p !== 'items' && p !== 'type');
-                let newValue = object.default;
-                if (newValue === undefined) {
-                    switch (true) {
-                        case object.enum !== undefined:
-                            newValue = object.enum[0];
-                            break;
-                            break;
-                        case value === 'string':
-                            newValue = '';
-                            break;
-                        case value === 'boolean':
-                            newValue = false;
-                            break;
-                        case value === 'number':
-                            if (object.minimum !== undefined) {
-                                newValue = object.minimum;
-                            }
-                            else {
-                                newValue = 0;
-                            }
-                            break;
-                    }
-                }
-                __set(newValues, finalPath, newValue);
-            }
-            return value;
-        });
-        return newValues;
-    }
-    _renderComponentValuesPreview(schema, path = []) {
-        var _a;
-        // get the values for the current path
-        const values = __get((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path);
-        // check if we have a widget specified and that it is available
-        if (schema.widget) {
-            if (!this._registeredWidgets[schema.widget]) {
-                throw new Error(`The widget "${schema.widget}" is not registered in carpenter. Make sure to register it using SCarpenterElement.registerWidget static method...`);
-            }
-            const tag = literal `${unsafeStatic(this._registeredWidgets[schema.widget].tag)}`;
-            return staticHtml `
-        <${tag} @s-carpenter.update=${(e) => {
-                var _a;
-                __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, e.detail);
-                console.log(this._currentComponent);
-                this._applyUpdate({
-                    component: this._currentComponent,
-                    value: e.detail,
-                    path,
-                });
-            }}></${tag}>
-      `;
-        }
-        switch (true) {
-            case schema.type === 'object' && schema.properties !== undefined:
-                return html `
-          <ul class=${this.cls('_values-object')}>
-            ${Object.entries(schema.properties).map(([key, value]) => {
-                    var _a;
-                    return html `
-                <li class=${this.cls('_values-item')}>
-                  <div
-                    class=${this.cls('_values-prop')}
-                    style="--prop-length: ${key.length}"
-                  >
-                    ${(_a = value.title) !== null && _a !== void 0 ? _a : key}
-                  </div>
-                  ${this._renderComponentValuesPreview(schema.properties[key], [
-                        ...path,
-                        key,
-                    ])}
-                </li>
-              `;
-                })}
-          </ul>
-        `;
-                break;
-            case schema.type === 'array' && schema.items !== undefined:
-                return html `
-          <ul class=${this.cls('_values-array')}>
-            ${(values === null || values === void 0 ? void 0 : values.length) &&
-                    values.map((value, i) => html `
-                <li class=${this.cls('_values-item')}>
-                  <div class=${this.cls('_values-index')}>${i}</div>
-                  ${this._renderComponentValuesPreview(schema.items, [
-                        ...path,
-                        `${i}`,
-                    ])}
-                </li>
-              `)}
-            <button
-              class=${this.cls('_values-add')}
-              @click=${() => {
-                    var _a;
-                    const newValues = this._createComponentDefaultValuesFromSchema(schema.items);
-                    if (!values) {
-                        __set((_a = this._currentComponent) === null || _a === void 0 ? void 0 : _a.values, path, [newValues]);
-                    }
-                    else {
-                        values.push(newValues);
-                    }
-                    this.requestUpdate();
-                }}
-            >
-              Add
-            </button>
-          </ul>
-        `;
-                break;
-            default:
-                return html `
-          <div class=${this.cls('_values-value')}>
-            ${this._renderComponentValueEditWidget(values, path)}
-          </div>
-        `;
-                break;
-        }
     }
     render() {
         if (this._currentComponent) {
@@ -460,9 +201,17 @@ class CarpenterElement extends __LitElement {
                 : ''}
           </header>
 
-          <div class=${this.cls('_values')}>
-            ${this._renderComponentValuesPreview(this._currentComponent.schema)}
-          </div>
+          <s-json-schema-form
+            @sJsonSchemaForm.update=${(e) => {
+                console.log('UP', e);
+                this._applyUpdate(Object.assign(Object.assign({}, e.detail.update), { component: this._currentComponent }));
+            }}
+            id="s-carpenter-json-schema-form"
+            name="s-carpenter-json-schema-form"
+            .verbose=${this.verbose}
+            .schema=${this._currentComponent.schema}
+            .values=${this._currentComponent.values}
+          ></s-json-schema-form>
         </div>
       `;
         }
@@ -486,4 +235,5 @@ __decorate([
 __decorate([
     state()
 ], CarpenterElement.prototype, "_currentComponentId", null);
+CarpenterElement.define('s-carpenter', CarpenterElement);
 //# sourceMappingURL=CarpenterElement.js.map

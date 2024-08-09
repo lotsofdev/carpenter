@@ -22,12 +22,10 @@ export default class CarpenterDaemonElement extends __LitElement {
   private _$actions: HTMLElement | null = null;
 
   constructor() {
-    super({
-      name: 's-carpenterd',
-    });
+    super();
   }
 
-  private firstUpdated() {
+  protected firstUpdated() {
     // get the $actions element
     this._$actions = this.querySelector(`.${this.cls('_actions')}`);
   }

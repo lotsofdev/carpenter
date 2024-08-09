@@ -1,5 +1,5 @@
 import __LitElement from '@lotsof/litElement';
-import '../components/wysiwygWidget/wysiwygWidget.js';
+import '@lotsof/json-schema-form';
 import __CarpenterFetchAdapter from '../components/fetchAdapter/fetchAdapter.js';
 import '../../src/css/CarpenterElement.css';
 import { ICarpenterComponent, ICarpenterWidget } from '../shared/Carpenter.types.js';
@@ -32,11 +32,6 @@ export default class CarpenterElement extends __LitElement {
     private _initEnvironment;
     private _injectCarpenterDeamon;
     private _findInSchema;
-    private _validateValues;
-    private _renderComponentValueErrors;
-    private _renderComponentValueEditWidget;
     private _applyUpdate;
-    private _createComponentDefaultValuesFromSchema;
-    private _renderComponentValuesPreview;
-    protected render(): import("lit-html").TemplateResult<1> | undefined;
+    render(): import("lit-html").TemplateResult<1> | undefined;
 }

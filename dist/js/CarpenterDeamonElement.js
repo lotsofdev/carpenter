@@ -19,9 +19,7 @@ import { customElement } from 'lit/decorators.js';
 import '../../src/css/CarpenterDaemonElement.css';
 let CarpenterDaemonElement = class CarpenterDaemonElement extends __LitElement {
     constructor() {
-        super({
-            name: 's-carpenterd',
-        });
+        super();
         this._domElementsToComponentObjectMap = new WeakMap();
         this._componentObjectToDomElements = new WeakMap();
         this._$actions = null;

@@ -6,7 +6,7 @@ export default class CarpenterDaemonElement extends __LitElement {
     private _componentObjectToDomElements;
     private _$actions;
     constructor();
-    private firstUpdated;
+    protected firstUpdated(): void;
     mount(): Promise<void>;
     getComponentDomElement(component: ICarpenterComponent): Element;
     getComponentFromDomElement($elm: Element): ICarpenterComponent;
