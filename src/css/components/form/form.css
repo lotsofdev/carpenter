@@ -1,0 +1,62 @@
+@import './form.bare.css';
+
+.form-checkbox {
+  /* thumb settings */
+  --thumb-size: 1.4em;
+  --thumb-color-active: s-color(main, surface);
+  --thumb-color-inactive: s-color(current);
+  --thumb-color-highlight: s-color(current, --alpha 0.2);
+  --thumb-radius: 999px;
+  --thumb-transition: s-transition(fast);
+
+  /* track settings */
+  --track-size: calc(var(--thumb-size) * 2);
+  --track-padding: 0.2em;
+  --track-color-active: s-color(current);
+  --track-color-inactive: s-color(current, --alpha 0);
+  --track-radius: 999px;
+}
+
+/* look and feel */
+.form-checkbox {
+  font-size: 0.8rem;
+  background: var(--track-color-inactive);
+  border: s-color(main, border) solid 1px;
+  outline-offset: 5px;
+  transition: var(--thumb-transition);
+  border-radius: var(--track-radius);
+
+  &:checked {
+    &::before {
+      background: var(--thumb-color-active) !important;
+    }
+  }
+
+  &::before {
+    --highlight-size: 0;
+
+    background: var(--thumb-color-inactive);
+    box-shadow: 0 0 0 var(--highlight-size) var(--thumb-color-highlight);
+    transform: translateX(var(--thumb-position));
+    transition: var(--thumb-transition);
+    border-radius: var(--thumb-radius);
+  }
+
+  &::after {
+    background: rgba(255, 255, 25, 0);
+    box-shadow: 0;
+    transition: var(--thumb-transition);
+    border-radius: var(--thumb-radius);
+  }
+
+  &:not(:disabled):hover::before {
+    --highlight-size: 0.5rem;
+  }
+  &:not(:disabled):focus::before {
+    --highlight-size: 0.25rem;
+  }
+
+  &:checked {
+    background: var(--track-color-active);
+  }
+}

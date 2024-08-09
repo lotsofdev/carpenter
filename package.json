@@ -1,0 +1,33 @@
+{
+  "name": "@lotsof/carpenter",
+  "version": "1.0.0",
+  "description": "Simple, complete and efficient builder",
+  "type": "module",
+  "author": "Olivier Bossel <olivier.bossel@gmail.com> (https://coffeekraken.io)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@editorjs/editorjs": "^2.30.2",
+    "@editorjs/embed": "^2.7.4",
+    "@editorjs/header": "^2.8.7",
+    "@editorjs/link": "^2.6.2",
+    "@editorjs/list": "^1.10.0",
+    "@editorjs/nested-list": "^1.4.3",
+    "@editorjs/paragraph": "^2.11.6",
+    "@editorjs/quote": "^2.6.0",
+    "@editorjs/underline": "^1.1.0",
+    "@lotsof/litElement": "^1.0.0",
+    "@lotsof/sugar": "^1.0.0",
+    "@types/json-schema": "^7.0.15",
+    "json-schema-library": "^10.0.0-rc2",
+    "lit": "^3.1.3",
+    "typescript": "^5.4.5"
+  },
+  "main": "dist/js/_exports.js",
+  "module": "dist/js/_exports.js",
+  "types": "src/js/_exports.ts",
+  "homepage": "https://lotsof.dev"
+}

@@ -1,0 +1,20 @@
+.codex-editor__redactor {
+  h1.ce-header {
+    font-size: 30px !important;
+  }
+  h2.ce-header {
+    font-size: 26px !important;
+  }
+  h3.ce-header {
+    font-size: 22px !important;
+  }
+  h4.ce-header {
+    font-size: 18px !important;
+  }
+  h5.ce-header {
+    font-size: 14px !important;
+  }
+  h6.ce-header {
+    font-size: 10px !important;
+  }
+}

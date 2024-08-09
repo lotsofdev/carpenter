@@ -1,0 +1,13 @@
+.s-carpenterd_actions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: s-color(accent, --alpha 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: s-transition(fast);
+
+  &:hover {
+    opacity: 1;
+  }
+}

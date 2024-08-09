@@ -1,0 +1,6 @@
+@import './components/actions/actions.css';
+@import './components/component/component.css';
+
+.s-carpenterd {
+  background: red;
+}
