@@ -25,7 +25,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
 var _CarpenterElement_src_accessor_storage, _CarpenterElement_adapter_accessor_storage, _CarpenterElement_widgets_accessor_storage, _CarpenterElement__currentComponent_accessor_storage, _CarpenterElement__currentComponentId_accessor_storage;
-import __LitElement from '@lotsof/litElement';
+import __LitElement from '@lotsof/lit-element';
 import '@lotsof/json-schema-form';
 // @todo    check why is a problem importing this functions
 // @ts-ignore
@@ -48,7 +48,7 @@ class CarpenterElement extends __LitElement {
     get _currentComponentId() { return __classPrivateFieldGet(this, _CarpenterElement__currentComponentId_accessor_storage, "f"); }
     set _currentComponentId(value) { __classPrivateFieldSet(this, _CarpenterElement__currentComponentId_accessor_storage, value, "f"); }
     constructor() {
-        super();
+        super('s-carpenter');
         _CarpenterElement_src_accessor_storage.set(this, '');
         _CarpenterElement_adapter_accessor_storage.set(this, null);
         _CarpenterElement_widgets_accessor_storage.set(this, {});

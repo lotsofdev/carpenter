@@ -1,4 +1,4 @@
-import __LitElement from '@lotsof/litElement';
+import __LitElement from '@lotsof/lit-element';
 
 import '@lotsof/json-schema-form';
 
@@ -13,15 +13,15 @@ import { property, state } from 'lit/decorators.js';
 
 import '../../src/css/CarpenterElement.css';
 import {
-  ICarpenterComponent,
-  ICarpenterSpecs,
-  ICarpenterUpdateObject,
-  ICarpenterWidget,
+  TCarpenterComponent,
+  TCarpenterSpecs,
+  TCarpenterUpdateObject,
+  TCarpenterWidget,
 } from '../shared/Carpenter.types.js';
 
 export default class CarpenterElement extends __LitElement {
-  public static widgets: Record<string, ICarpenterWidget> = {};
-  public static registerWidget(widget: ICarpenterWidget): void {
+  public static widgets: Record<string, TCarpenterWidget> = {};
+  public static registerWidget(widget: TCarpenterWidget): void {
     this.widgets[widget.id] = widget;
   }
 
@@ -32,23 +32,23 @@ export default class CarpenterElement extends __LitElement {
   accessor adapter: __CarpenterFetchAdapter | null = null;
 
   @property({ type: Object })
-  accessor widgets: Record<string, ICarpenterWidget> = {};
+  accessor widgets: Record<string, TCarpenterWidget> = {};
 
   @state()
-  accessor _currentComponent: ICarpenterComponent | null = null;
+  accessor _currentComponent: TCarpenterComponent | null = null;
 
   @state()
   accessor _currentComponentId: string = '';
 
-  private _registeredWidgets: Record<string, ICarpenterWidget> = {};
-  private _specs: ICarpenterSpecs = {
+  private _registeredWidgets: Record<string, TCarpenterWidget> = {};
+  private _specs: TCarpenterSpecs = {
     components: {},
   };
 
   private _$iframe?: HTMLIFrameElement;
 
   constructor() {
-    super();
+    super('s-carpenter');
   }
 
   /**
@@ -106,7 +106,7 @@ export default class CarpenterElement extends __LitElement {
     });
   }
 
-  public registerComponent(component: ICarpenterComponent): void {
+  public registerComponent(component: TCarpenterComponent): void {
     this.log(`Registering the component (${component.name})[#${component.id}]`);
     this._specs.components[component.id] = component;
   }
@@ -152,7 +152,7 @@ export default class CarpenterElement extends __LitElement {
     $deamon.setAttribute('verbose', 'true');
 
     $deamon.addEventListener('carpenter.component', (e) => {
-      this.registerComponent((<CustomEvent>e).detail as ICarpenterComponent);
+      this.registerComponent((<CustomEvent>e).detail as TCarpenterComponent);
     });
     $deamon.addEventListener('carpenter.edit', (e) => {
       this._currentComponent = (<CustomEvent>e).detail;
@@ -179,7 +179,7 @@ export default class CarpenterElement extends __LitElement {
     return foundSchema;
   }
 
-  private async _applyUpdate(update: ICarpenterUpdateObject): Promise<void> {
+  private async _applyUpdate(update: TCarpenterUpdateObject): Promise<void> {
     if (!this.adapter) {
       this.log(
         `No adapter defined to handle update of ${update.path.join('.')}...`,

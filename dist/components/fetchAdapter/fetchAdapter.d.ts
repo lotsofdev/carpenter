@@ -1,9 +1,9 @@
-import type { ICarpenterAdapter, ICarpenterUpdateObject, ICarpenterUpdateResult } from '../../shared/Carpenter.types.js';
+import type { TCarpenterAdapter, TCarpenterUpdateObject, TCarpenterUpdateResult } from '../../shared/Carpenter.types.js';
 export interface ICarpenterFetchAdapterSettings {
     url: string;
 }
-export default class CarpenterFetchAdapter implements ICarpenterAdapter {
+export default class CarpenterFetchAdapter implements TCarpenterAdapter {
     settings: ICarpenterFetchAdapterSettings;
     constructor(settings?: Partial<ICarpenterFetchAdapterSettings>);
-    applyUpdate(update: ICarpenterUpdateObject): Promise<ICarpenterUpdateResult>;
+    applyUpdate(update: TCarpenterUpdateObject): Promise<TCarpenterUpdateResult>;
 }

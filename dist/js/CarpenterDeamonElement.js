@@ -13,13 +13,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import __LitElement from '@lotsof/litElement';
+import __LitElement from '@lotsof/lit-element';
 import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import '../../src/css/CarpenterDaemonElement.css';
 let CarpenterDaemonElement = class CarpenterDaemonElement extends __LitElement {
     constructor() {
-        super();
+        super('s-carpenterd');
         this._domElementsToComponentObjectMap = new WeakMap();
         this._componentObjectToDomElements = new WeakMap();
         this._$actions = null;

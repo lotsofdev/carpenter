@@ -19,7 +19,7 @@
     "@editorjs/paragraph": "^2.11.6",
     "@editorjs/quote": "^2.6.0",
     "@editorjs/underline": "^1.1.0",
-    "@lotsof/litElement": "^1.0.0",
+    "@lotsof/lit-element": "^1.0.0",
     "@lotsof/sugar": "^1.0.0",
     "@lotsof/json-schema-form": "^1.0.0",
     "@types/json-schema": "^7.0.15",

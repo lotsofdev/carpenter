@@ -1,45 +1,46 @@
 import { JSONSchema7 } from 'json-schema';
 
-import {
-  IJsonSchemaFormUpdateObject,
-  IJsonSchemaFormWidget,
-} from '@lotsof/json-schema-form/src/shared/JsonSchemaForm.types.js';
+import type {
+  TJsonSchemaFormUpdateObject,
+  TJsonSchemaFormWidget,
+} from '@lotsof/json-schema-form';
+
 import __CarpenterFetchAdapter from '../components/fetchAdapter/fetchAdapter.js';
 
-export interface ICarpenterSettings {
+export type TCarpenterSettings = {
   adapter: typeof __CarpenterFetchAdapter;
-}
+};
 
-export interface ICarpenterSpecs {
-  components: Record<string, ICarpenterComponent>;
-}
+export type TCarpenterSpecs = {
+  components: Record<string, TCarpenterComponent>;
+};
 
-export interface ICarpenterComponent {
+export type TCarpenterComponent = {
   id: string;
   name: string;
   description?: string;
   schema: JSONSchema7;
   values: any;
   $component: Element;
-}
+};
 
-export interface ICarpenterUpdateObject extends IJsonSchemaFormUpdateObject {
-  component: ICarpenterComponent;
-}
+export type TCarpenterUpdateObject = TJsonSchemaFormUpdateObject & {
+  component: TCarpenterComponent;
+};
 
-export interface ICarpenterUpdateResult {
-  component: ICarpenterComponent;
+export type TCarpenterUpdateResult = {
+  component: TCarpenterComponent;
   path: string[];
   value: any;
   html?: string;
-}
+};
 
-export interface ICarpenterCustomEvent extends CustomEvent {
-  detail: ICarpenterComponent;
-}
+export type TCarpenterCustomEvent = CustomEvent & {
+  detail: TCarpenterComponent;
+};
 
-export interface ICarpenterAdapter {
-  applyUpdate(ICarpenterUpdateObject): void;
-}
+export type TCarpenterAdapter = {
+  applyUpdate(TCarpenterUpdateObject): void;
+};
 
-export interface ICarpenterWidget extends IJsonSchemaFormWidget {}
+export type TCarpenterWidget = TJsonSchemaFormWidget & {};

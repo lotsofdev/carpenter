@@ -1,28 +1,28 @@
-import __LitElement from '@lotsof/litElement';
+import __LitElement from '@lotsof/lit-element';
 
 import { html } from 'lit';
 
 import { customElement } from 'lit/decorators.js';
 import '../../src/css/CarpenterDaemonElement.css';
 import {
-  ICarpenterComponent,
-  ICarpenterCustomEvent,
+  TCarpenterComponent,
+  TCarpenterCustomEvent,
 } from '../shared/Carpenter.types.js';
 
 @customElement('s-carpenterd')
 export default class CarpenterDaemonElement extends __LitElement {
   private _domElementsToComponentObjectMap: WeakMap<
     Element,
-    ICarpenterComponent
+    TCarpenterComponent
   > = new WeakMap();
 
-  private _componentObjectToDomElements: WeakMap<ICarpenterComponent, Element> =
+  private _componentObjectToDomElements: WeakMap<TCarpenterComponent, Element> =
     new WeakMap();
 
   private _$actions: HTMLElement | null = null;
 
   constructor() {
-    super();
+    super('s-carpenterd');
   }
 
   protected firstUpdated() {
@@ -35,7 +35,7 @@ export default class CarpenterDaemonElement extends __LitElement {
     this._loadSpecs();
   }
 
-  public getComponentDomElement(component: ICarpenterComponent): Element {
+  public getComponentDomElement(component: TCarpenterComponent): Element {
     // check from component object directly
     if (component.$component) {
       return component.$component;
@@ -65,7 +65,7 @@ export default class CarpenterDaemonElement extends __LitElement {
     return $component;
   }
 
-  public getComponentFromDomElement($elm: Element): ICarpenterComponent {
+  public getComponentFromDomElement($elm: Element): TCarpenterComponent {
     if (!this._domElementsToComponentObjectMap.has($elm)) {
       throw new Error(
         `The logged element above does not has any component attachec to it...`,
@@ -74,7 +74,7 @@ export default class CarpenterDaemonElement extends __LitElement {
 
     return this._domElementsToComponentObjectMap.get(
       $elm,
-    ) as ICarpenterComponent;
+    ) as TCarpenterComponent;
   }
 
   private async _loadSpecs() {
@@ -90,7 +90,7 @@ export default class CarpenterDaemonElement extends __LitElement {
   private async _loadSpecsScript(
     $specsScript: HTMLScriptElement,
   ): Promise<any> {
-    let component: Partial<ICarpenterComponent> = {};
+    let component: Partial<TCarpenterComponent> = {};
 
     this.log(`Getting the specs from the specs script:`, $specsScript);
 
@@ -122,23 +122,23 @@ export default class CarpenterDaemonElement extends __LitElement {
 
     // get the $component element inside the page
     const $component = this.getComponentDomElement(
-      component as ICarpenterComponent,
+      component as TCarpenterComponent,
     );
 
     // set the component object to the dom element
     component.$component = $component;
 
     // emit a new component
-    this._emit('carpenter.component', component as ICarpenterComponent);
+    this._emit('carpenter.component', component as TCarpenterComponent);
 
     // add the s-carpenter-component class to the component
     $component.classList.add('s-carpenter-component');
 
     // init the component edition behaviors
-    this._initComponentListeners(component as ICarpenterComponent);
+    this._initComponentListeners(component as TCarpenterComponent);
   }
 
-  private _setActionsSizeAndPosition(component: ICarpenterComponent): void {
+  private _setActionsSizeAndPosition(component: TCarpenterComponent): void {
     if (!this._$actions) {
       return;
     }
@@ -149,7 +149,7 @@ export default class CarpenterDaemonElement extends __LitElement {
     this._$actions.style.height = `${bound.height}px`;
   }
 
-  private _initComponentListeners(component: ICarpenterComponent): void {
+  private _initComponentListeners(component: TCarpenterComponent): void {
     // hover behavior
     component.$component.addEventListener('pointerenter', (e) => {
       // add the "-carpenter-hover" class to the component
@@ -173,8 +173,8 @@ export default class CarpenterDaemonElement extends __LitElement {
     });
   }
 
-  protected _emit(name: string, value: ICarpenterComponent): void {
-    const event: ICarpenterCustomEvent = new CustomEvent(name, {
+  protected _emit(name: string, value: TCarpenterComponent): void {
+    const event: TCarpenterCustomEvent = new CustomEvent(name, {
       bubbles: true,
       detail: value,
     });

@@ -1,7 +1,7 @@
 import type {
-  ICarpenterAdapter,
-  ICarpenterUpdateObject,
-  ICarpenterUpdateResult,
+  TCarpenterAdapter,
+  TCarpenterUpdateObject,
+  TCarpenterUpdateResult,
 } from '../../shared/Carpenter.types.js';
 
 // @todo    check why this import des not work correctly
@@ -12,7 +12,7 @@ export interface ICarpenterFetchAdapterSettings {
   url: string;
 }
 
-export default class CarpenterFetchAdapter implements ICarpenterAdapter {
+export default class CarpenterFetchAdapter implements TCarpenterAdapter {
   settings: ICarpenterFetchAdapterSettings;
 
   constructor(settings?: Partial<ICarpenterFetchAdapterSettings>) {
@@ -23,8 +23,8 @@ export default class CarpenterFetchAdapter implements ICarpenterAdapter {
   }
 
   public async applyUpdate(
-    update: ICarpenterUpdateObject,
-  ): Promise<ICarpenterUpdateResult> {
+    update: TCarpenterUpdateObject,
+  ): Promise<TCarpenterUpdateResult> {
     // protect the component from being updated
     // if not in the page
     if (!update.component.$component) {
